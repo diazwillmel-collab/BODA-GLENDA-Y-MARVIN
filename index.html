@@ -84,29 +84,14 @@ footer{background:var(--olive-dark);color:white;text-align:center;padding:48px 2
 
 
 
+
+/* La invitación abre directamente, sin pantalla de sobre */
+#invitation{opacity:1!important;transform:none!important;transition:none!important}
 </style>
 </head>
 <body>
 
-<div id="opening">
-  <div class="eucalyptus e1">🌿</div><div class="eucalyptus e2">🌿</div>
-  <div class="eucalyptus e3">🌿</div><div class="eucalyptus e4">🌿</div>
-  <div class="intro">
-    <small>Una celebración muy especial</small>
-    <h1 style="color:#29351f!important;background:rgba(255,253,248,.88);">Glenda & Marvin</h1>
-    <p>Tenemos una invitación muy especial para ti.</p>
-    <div class="envelope-wrap" id="envelope" role="button" tabindex="0" aria-label="Abrir invitación">
-      <div class="envelope">
-        <div class="envelope-message"><span>Nuestra boda</span><b>Glenda & Marvin</b></div>
-        <div class="flap-shape"></div>
-        <div class="seal">💍</div>
-      </div>
-    </div>
-    <div class="open-hint">✦ Toca el sobre para abrir ✦</div>
-  </div>
-</div>
-
-<div id="invitation" class="hidden">
+<div id="invitation" class="show">
 <div class="page">
 <section class="hero">
  <span class="leaf tl">🌿</span><span class="leaf tr">🌿</span><span class="leaf bl">🌿</span><span class="leaf br">🌿</span>
@@ -200,14 +185,6 @@ footer{background:var(--olive-dark);color:white;text-align:center;padding:48px 2
 </div></div>
 
 <script>
-const envelope=document.getElementById('envelope'), opening=document.getElementById('opening'), invitation=document.getElementById('invitation');
-function openInvitation(){
- if(envelope.classList.contains('open')) return;
- envelope.classList.add('open');
- setTimeout(()=>{opening.style.display='none';invitation.classList.remove('hidden');requestAnimationFrame(()=>invitation.classList.add('show'));window.scrollTo({top:0,behavior:'smooth'});},850);
-}
-envelope.addEventListener('click',openInvitation);
-envelope.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')openInvitation()});
 
 const cal=document.getElementById('calendar');
 ['D','L','M','M','J','V','S'].forEach(x=>{let s=document.createElement('span');s.className='week';s.textContent=x;cal.append(s)});
