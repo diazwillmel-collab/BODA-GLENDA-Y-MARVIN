@@ -130,6 +130,14 @@ footer{background:var(--olive-dark);color:white;text-align:center;padding:48px 2
 
 
 
+
+.music-section{text-align:center;padding:24px 18px}
+.music-player-wrap{max-width:560px;margin:12px auto}
+#fonseca-player{width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#111}
+#fonseca-player iframe{width:100%;height:100%}
+#music-toggle{margin-top:14px;padding:12px 24px;border:1px solid #b69b54;border-radius:28px;background:#66734b;color:#fff;font-size:15px;cursor:pointer}
+.music-note{font-size:12px;line-height:1.5;margin:10px auto;color:inherit}
+
 </style>
 </head>
 <body>
@@ -335,4 +343,42 @@ document.getElementById('glenda').href='https://wa.me/50378993123?text='+msg;
 </script>
 
 
+
+<section class="music-section" aria-label="Música de la invitación">
+  <div class="music-player-wrap">
+    <div id="fonseca-player"></div>
+    <button id="music-toggle" type="button">♪ Activar música</button>
+    <p class="music-note">La música intentará comenzar automáticamente. Si no escuchas nada, toca «Activar música».</p>
+  </div>
+</section>
+<script>
+  let fonsecaPlayer;
+  function onYouTubeIframeAPIReady() {
+    fonsecaPlayer = new YT.Player('fonseca-player', {
+      videoId: 'cdHn3kNGRRs',
+      playerVars: {
+        autoplay: 1,
+        mute: 1,
+        playsinline: 1,
+        controls: 1,
+        rel: 0
+      },
+      events: {
+        onReady: function(event) {
+          event.target.mute();
+          event.target.playVideo();
+        }
+      }
+    });
+  }
+  document.getElementById('music-toggle').addEventListener('click', function() {
+    if (fonsecaPlayer && typeof fonsecaPlayer.unMute === 'function') {
+      fonsecaPlayer.unMute();
+      fonsecaPlayer.setVolume(100);
+      fonsecaPlayer.playVideo();
+      this.textContent = '♪ Música activada';
+    }
+  });
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
 </body></html>
