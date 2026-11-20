@@ -255,7 +255,7 @@ footer{background:var(--olive-dark);color:white;text-align:center;padding:48px 2
     <h3>PAJESITOS</h3>
     <ul class="party-list">
      <li>Fernando Giovanni Diaz Sandoval</li>
-     <li>Isaias en Manuel Sandoval Sánchez</li>
+     <li>Isaias Emanuel Sandoval Sánchez</li>
      <li>Sofía Denise Sandoval Sánchez</li>
      <li>Rafael esau Sandoval Sánchez</li>
      <li>Amanda Antonella Salvador Guzmán</li>
@@ -346,39 +346,35 @@ document.getElementById('glenda').href='https://wa.me/50378993123?text='+msg;
 
 <section class="music-section" aria-label="Música de la invitación">
   <div class="music-player-wrap">
-    <div id="fonseca-player"></div>
-    <button id="music-toggle" type="button">♪ Activar música</button>
-    <p class="music-note">La música intentará comenzar automáticamente. Si no escuchas nada, toca «Activar música».</p>
+    <audio id="wedding-song" autoplay loop playsinline preload="auto">
+      <source src="cancion.mp3" type="audio/mpeg">
+    </audio>
+    <button id="music-toggle" type="button">♪ Escuchar nuestra canción</button>
+    <p class="music-note">La canción intentará reproducirse al abrir la invitación. Si tu teléfono bloquea el inicio automático, toca el botón para escucharla.</p>
   </div>
 </section>
 <script>
-  let fonsecaPlayer;
-  function onYouTubeIframeAPIReady() {
-    fonsecaPlayer = new YT.Player('fonseca-player', {
-      videoId: 'cdHn3kNGRRs',
-      playerVars: {
-        autoplay: 1,
-        mute: 1,
-        playsinline: 1,
-        controls: 1,
-        rel: 0
-      },
-      events: {
-        onReady: function(event) {
-          event.target.mute();
-          event.target.playVideo();
-        }
-      }
-    });
-  }
-  document.getElementById('music-toggle').addEventListener('click', function() {
-    if (fonsecaPlayer && typeof fonsecaPlayer.unMute === 'function') {
-      fonsecaPlayer.unMute();
-      fonsecaPlayer.setVolume(100);
-      fonsecaPlayer.playVideo();
-      this.textContent = '♪ Música activada';
+  const weddingSong = document.getElementById('wedding-song');
+  const musicButton = document.getElementById('music-toggle');
+
+  function startWeddingSong() {
+    weddingSong.muted = false;
+    weddingSong.volume = 1;
+    const playPromise = weddingSong.play();
+    if (playPromise && typeof playPromise.then === 'function') {
+      playPromise.then(() => {
+        musicButton.textContent = '♪ Música reproduciéndose';
+      }).catch(() => {
+        musicButton.textContent = '♪ Toca para escuchar la canción';
+      });
     }
-  });
+  }
+
+  musicButton.addEventListener('click', startWeddingSong);
+  document.addEventListener('pointerdown', function firstInteraction() {
+    startWeddingSong();
+    document.removeEventListener('pointerdown', firstInteraction);
+  }, { once: true });
+  window.addEventListener('load', startWeddingSong);
 </script>
-<script src="https://www.youtube.com/iframe_api"></script>
 </body></html>
